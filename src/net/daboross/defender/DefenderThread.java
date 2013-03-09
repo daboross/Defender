@@ -42,6 +42,9 @@ public class DefenderThread implements Runnable {
                     Logger.getLogger(DefenderThread.class.getName()).log(Level.SEVERE, "Caught in DefenderThread", ex);
                 }
             }
+            if (main.isDone()) {
+                break;
+            }
             if (!run) {
                 break;
             }
