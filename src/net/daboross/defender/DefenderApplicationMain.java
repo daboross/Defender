@@ -1,5 +1,7 @@
 package net.daboross.defender;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import javax.swing.JFrame;
 
 /**
@@ -13,10 +15,12 @@ public class DefenderApplicationMain {
      */
     public static void main(String[] args) {
         JFrame jFrame = new JFrame("Defender");
-        jFrame.setVisible(true);
         jFrame.setSize(640, 480);
+        Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+        jFrame.setLocation((d.width - 640) / 2, (d.height - 480) / 2);
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         DefenderMain main = new DefenderMain(jFrame);
+        jFrame.setVisible(true);
         main.start();
     }
 }
