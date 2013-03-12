@@ -15,7 +15,8 @@ public class DefenderApplicationMain {
      */
     public static void main(String[] args) {
         JFrame jFrame = new JFrame("Defender");
-        jFrame.setSize(640, 480);
+        jFrame.setPreferredSize(new Dimension(640, 480));
+        jFrame.pack();
         Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
         jFrame.setLocation((d.width - 640) / 2, (d.height - 480) / 2);
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
