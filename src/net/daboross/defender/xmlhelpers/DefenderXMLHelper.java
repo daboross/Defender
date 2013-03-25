@@ -26,31 +26,35 @@ import org.xml.sax.SAXException;
 public class DefenderXMLHelper {
 
     private static final TransformerFactory transformerFactory = TransformerFactory.newInstance();
-    private static Transformer transformer;
+    private static final Transformer transformer;
     private static final DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-    private static DocumentBuilder docBuilder;
+    private static final DocumentBuilder docBuilder;
 
     static {
+        Transformer transformerTemp;
         try {
-            transformer = transformerFactory.newTransformer();
+            transformerTemp = transformerFactory.newTransformer();
         } catch (TransformerConfigurationException ex) {
             Logger.getLogger(DefenderXMLHelper.class.getName()).log(Level.SEVERE, null, ex);
-            transformer = null;
+            transformerTemp = null;
         }
-        if (transformer != null) {
-            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-            transformer.setOutputProperty(OutputKeys.STANDALONE, "no");
+        if (transformerTemp != null) {
+            transformerTemp.setOutputProperty(OutputKeys.INDENT, "yes");
+            transformerTemp.setOutputProperty(OutputKeys.STANDALONE, "no");
             try {
-                transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+                transformerTemp.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
             } catch (IllegalArgumentException e) {
             }
         }
+        transformer = transformerTemp;
+        DocumentBuilder docBuilderTemp;
         try {
-            docBuilder = docFactory.newDocumentBuilder();
+            docBuilderTemp = docFactory.newDocumentBuilder();
         } catch (ParserConfigurationException ex) {
             Logger.getLogger(DefenderXMLHelper.class.getName()).log(Level.SEVERE, null, ex);
-            docBuilder = null;
+            docBuilderTemp = null;
         }
+        docBuilder = docBuilderTemp;
     }
 
     public static Document newDocument() throws DXMLException {
@@ -91,7 +95,7 @@ public class DefenderXMLHelper {
         writeXML(sourceDOM, file);
     }
 
-    private static void writeXML(Source source, File file) throws DXMLException {
+    public static void writeXML(Source source, File file) throws DXMLException {
         if (source == null || file == null) {
             throw new IllegalArgumentException("1 or more null arguments");
         }
