@@ -1,4 +1,4 @@
-package net.daboross.defender.xmlhelpers;
+package net.daboross.xmlhelpers;
 
 /**
  *

@@ -2,8 +2,8 @@ package net.daboross.defender;
 
 import java.io.File;
 import java.util.concurrent.TimeUnit;
-import net.daboross.defender.xmlhelpers.DXMLException;
-import static net.daboross.defender.xmlhelpers.DefenderXMLHelper.*;
+import net.daboross.xmlhelpers.DXMLException;
+import static net.daboross.xmlhelpers.DXMLHelper.*;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
