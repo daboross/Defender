@@ -3,10 +3,12 @@ package net.daboross.defender;
 import java.awt.Canvas;
 import java.awt.Container;
 import java.awt.Point;
+import javax.swing.JFrame;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
+import static net.daboross.defender.DefenderGraphicsHelper.drawHexagon;
 
 /**
  *
@@ -16,18 +18,20 @@ public class DefenderMain {
 
     private final Canvas parent_canvas;
     private final DefenderThread defThread;
+    private final JFrame frame;
 
     /**
      *
      * @param parent_canvas
      */
-    public DefenderMain(Container c) {
-        if (c == null) {
+    public DefenderMain(JFrame frame) {
+        if (frame == null) {
             throw new IllegalArgumentException();
         }
         parent_canvas = new Canvas();
-        c.add(parent_canvas);
+        frame.add(parent_canvas);
         defThread = new DefenderThread(this);
+        this.frame = frame;
     }
 
     public void start() {
@@ -38,17 +42,26 @@ public class DefenderMain {
         initDisplay();
     }
 
+    private int getScreenX() {
+        return parent_canvas.getWidth();
+    }
+
+    private int getScreenY() {
+        return parent_canvas.getHeight();
+    }
+
     protected void runLoop() {
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
         GL11.glColor3f(0.5f, 0.5f, 1.0f);
-        Point center = new Point(320, 240);
-        GL11.glBegin(GL11.GL_QUADS);
-        double angle = 0;
-        for (int i = 0; i < 12; i++) {
-            GL11.glVertex2d(center.x + Math.sin(angle) * 200, center.y + Math.cos(angle) * 200);
-            angle += Math.PI / 3;
+        int distance = 30;
+        int screenX = getScreenX() + distance;
+        int screenY = getScreenY() + distance;
+        for (int x = 0; x <= screenX; x += distance) {
+            for (int y = ((x % 4 == 0) ? (distance / 2) : 0); y <= screenY; y += distance) {
+                drawHexagon(new Point(x, y), distance / 2);
+            }
         }
-        GL11.glEnd();
+        drawHexagon(new Point(), 3);
         Display.update();
     }
 
