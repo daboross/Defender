@@ -1,14 +1,15 @@
 package net.daboross.defender;
 
+import net.daboross.defender.graphics.DefenderGraphicsHelper;
 import java.awt.Canvas;
-import java.awt.Container;
 import java.awt.Point;
 import javax.swing.JFrame;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
-import static net.daboross.defender.DefenderGraphicsHelper.drawHexagon;
+import static net.daboross.defender.graphics.DefenderGraphicsHelper.drawHexagon;
+import net.daboross.defender.graphics.GameGraphics;
 
 /**
  *
@@ -19,12 +20,13 @@ public class DefenderMain {
     private final Canvas parent_canvas;
     private final DefenderThread defThread;
     private final JFrame frame;
+    private final GameGraphics gameGraphics;
 
     /**
      *
      * @param parent_canvas
      */
-    public DefenderMain(JFrame frame) {
+    public DefenderMain(final JFrame frame) {
         if (frame == null) {
             throw new IllegalArgumentException();
         }
@@ -32,6 +34,7 @@ public class DefenderMain {
         frame.add(parent_canvas);
         defThread = new DefenderThread(this);
         this.frame = frame;
+        this.gameGraphics = new GameGraphics(getScreenX(), getScreenY());
     }
 
     public void start() {
@@ -49,20 +52,12 @@ public class DefenderMain {
     private int getScreenY() {
         return parent_canvas.getHeight();
     }
+    int x;
 
     protected void runLoop() {
-        GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
-        GL11.glColor3f(0.5f, 0.5f, 1.0f);
-        int distance = 30;
-        int screenX = getScreenX() + distance;
-        int screenY = getScreenY() + distance;
-        for (int x = 0; x <= screenX; x += distance) {
-            for (int y = ((x % 4 == 0) ? (distance / 2) : 0); y <= screenY; y += distance) {
-                drawHexagon(new Point(x, y), distance / 2);
-            }
-        }
-        drawHexagon(new Point(), 3);
-        Display.update();
+        x++;
+        gameGraphics.addScroll(x, x);
+        gameGraphics.updateScreen();
     }
 
     protected void afterRun() {
