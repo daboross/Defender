@@ -39,11 +39,11 @@ public class DefenderData {
         NodeList nl = firstChild.getChildNodes();
         for (int i = 0; i < nl.getLength(); i++) {
             Node current = nl.item(i);
-            System.out.println("name:"+current.getNodeName());
-            System.out.println("val:"+current.getNodeValue());
-            System.out.println("prefix:"+current.getPrefix());
-            System.out.println("type:"+current.getNodeType());
-            System.out.println("local:"+current.getLocalName());
+            System.out.println("name:" + current.getNodeName());
+            System.out.println("val:" + current.getNodeValue());
+            System.out.println("prefix:" + current.getPrefix());
+            System.out.println("type:" + current.getNodeType());
+            System.out.println("local:" + current.getLocalName());
         }
     }
 }

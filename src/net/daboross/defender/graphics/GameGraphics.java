@@ -49,7 +49,7 @@ public class GameGraphics {
     private void paintObjects() {
         for (GraphicsObject o : objectList) {
             Location l = o.getLocation();
-            
+
         }
     }
 
