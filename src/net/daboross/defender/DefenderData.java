@@ -7,6 +7,8 @@ import static net.daboross.xmlhelpers.DXMLHelper.*;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 /**
  *
@@ -33,5 +35,15 @@ public class DefenderData {
         }
         writeXML(doc, saveFile);
         Document read = readDocument(saveFile);
+        Node firstChild = read.getFirstChild();
+        NodeList nl = firstChild.getChildNodes();
+        for (int i = 0; i < nl.getLength(); i++) {
+            Node current = nl.item(i);
+            System.out.println("name:"+current.getNodeName());
+            System.out.println("val:"+current.getNodeValue());
+            System.out.println("prefix:"+current.getPrefix());
+            System.out.println("type:"+current.getNodeType());
+            System.out.println("local:"+current.getLocalName());
+        }
     }
 }
