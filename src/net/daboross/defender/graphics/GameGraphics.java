@@ -1,6 +1,8 @@
 package net.daboross.defender.graphics;
 
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import net.daboross.defender.Location;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
@@ -37,6 +39,7 @@ public class GameGraphics {
 
     private void paintGrid() {
         GL11.glBegin(GL11.GL_QUADS);
+        GL11.glColor3f(0.5f, 0.5f, 0.5f);
         GL11.glVertex2i(0, 0);
         GL11.glVertex2i(screenX, 0);
         GL11.glVertex2i(screenX, screenY);
@@ -55,7 +58,6 @@ public class GameGraphics {
 
     public void updateScreen() {
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
-        GL11.glColor3f(0.1f, 0.1f, 0.1f);
         paintGrid();
         paintObjects();
         Display.update();
