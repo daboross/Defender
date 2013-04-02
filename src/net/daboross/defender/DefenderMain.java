@@ -1,12 +1,10 @@
 package net.daboross.defender;
 
-import java.awt.Canvas;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
@@ -24,8 +22,9 @@ public class DefenderMain {
     private final DefenderThread defThread;
     private final GameGraphics gameGraphics;
     private final JFrame frame;
-    private int currentMovementX;
-    private int currentMovementY;
+    private final ScrollListener scrollListener;
+    private double currentMovementX;
+    private double currentMovementY;
 
     /**
      *
@@ -42,11 +41,12 @@ public class DefenderMain {
             Logger.getLogger(DefenderMain.class.getName()).log(Level.SEVERE, "LWJGLException while creating canvas", lwjgle);
             System.exit(1);
         }
-        parentCanvas = parentCanvasTemp;
+        this.parentCanvas = parentCanvasTemp;
         frame.getContentPane().add(parentCanvas);
-        defThread = new DefenderThread(this);
-        this.gameGraphics = new GameGraphics(frame.getWidth(), frame.getHeight());
+        this.defThread = new DefenderThread(this);
+        this.gameGraphics = new GameGraphics();
         this.frame = frame;
+        this.scrollListener = new ScrollListener(this);
     }
 
     public void start() {
@@ -67,6 +67,7 @@ public class DefenderMain {
     }
 
     protected void runLoop() {
+        scrollListener.update();
         gameGraphics.addScroll(currentMovementX, currentMovementY);
         gameGraphics.updateScreen();
     }
@@ -94,16 +95,16 @@ public class DefenderMain {
         }
     }
 
-    public void setCurrentMovement(final int x, final int y) {
+    public void setCurrentMovement(final double x, final double y) {
         this.currentMovementX = x;
         this.currentMovementY = y;
     }
 
-    public void setCurrentMovementX(final int x) {
+    public void setCurrentMovementX(final double x) {
         this.currentMovementX = x;
     }
 
-    public void setCurrentMovementY(final int y) {
+    public void setCurrentMovementY(final double y) {
         this.currentMovementY = y;
     }
 
