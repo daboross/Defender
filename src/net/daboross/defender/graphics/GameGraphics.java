@@ -33,13 +33,20 @@ public class GameGraphics {
 
     public GameGraphics() {
         objectList = new ArrayList<GraphicsObject>();
+        addScroll(Display.getWidth() / 2, Display.getHeight() / 2);
     }
 
-    public void addScroll(final double x, final double y) {
+    public final void addScroll(final double x, final double y) {
         scrollX += x;
         scrollY += y;
         gridScrollX = scrollX % (HexagonStatics.xDistance * 2);
         gridScrollY = scrollY % (HexagonStatics.yDistance * 2);
+    }
+
+    public void centerOn(Location loc) {
+        FinePoint point = new FinePoint(hexLocationWithoutScroll(loc.hexX, loc.hexY), loc.driftX, loc.driftY);
+        scrollX = -point.x + Display.getWidth() / 2;
+        scrollY = -point.y + Display.getHeight() / 2;
     }
 
     public void addObject(GraphicsObject go) {
@@ -89,8 +96,13 @@ public class GameGraphics {
     }
 
     private FinePoint hexLocation(int hexX, int hexY) {
-        double x = scrollX + HexagonStatics.xDistance * hexX;
-        double y = scrollY + (hexX % 2 == 0 ? HexagonStatics.yDistance / 2 : 0) + hexY * HexagonStatics.yDistance;
+        FinePoint withoutScroll = hexLocationWithoutScroll(hexX, hexY);
+        return new FinePoint(withoutScroll, scrollX, scrollY);
+    }
+
+    private FinePoint hexLocationWithoutScroll(int hexX, int hexY) {
+        double x = HexagonStatics.xDistance * hexX;
+        double y = (hexX % 2 == 0 ? HexagonStatics.yDistance / 2 : 0) + hexY * HexagonStatics.yDistance;
         return new FinePoint(x, y);
     }
 

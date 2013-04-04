@@ -29,6 +29,7 @@ public class DefenderMain {
     private final ScrollListener scrollListener;
     private double currentMovementX;
     private double currentMovementY;
+    public final DefenderCharacter character;
     private List<Updatable> updatables = new ArrayList<Updatable>();
 
     public DefenderMain(final JFrame frame) {
@@ -48,6 +49,10 @@ public class DefenderMain {
         this.gameGraphics = new GameGraphics();
         this.frame = frame;
         this.scrollListener = new ScrollListener(this);
+        character = new DefenderCharacter();
+        gameGraphics.addObject(character);
+        addUpdatable(character);
+        addUpdatable(scrollListener);
     }
 
     public void start() {
@@ -66,9 +71,6 @@ public class DefenderMain {
             }
         });
         addHexs();
-        DefenderCharacter defenderCharacter = new DefenderCharacter(this);
-        addUpdatable(defenderCharacter);
-        gameGraphics.addObject(defenderCharacter);
     }
 
     private void addHexs() {
@@ -86,7 +88,6 @@ public class DefenderMain {
     }
 
     protected void runLoop() {
-        scrollListener.update();
         this.updateUpdatables();
         gameGraphics.addScroll(currentMovementX, currentMovementY);
         gameGraphics.updateScreen();
@@ -142,7 +143,7 @@ public class DefenderMain {
         return frame.getHeight();
     }
 
-    public void addUpdatable(Updatable u) {
+    public final void addUpdatable(Updatable u) {
         updatables.add(u);
     }
 }

@@ -19,9 +19,9 @@ public class FinePoint implements Cloneable {
         this.y = y;
     }
 
-    public FinePoint(FinePoint screenLocation, double x, double y) {
-        this.x = screenLocation.x + x;
-        this.y = screenLocation.y + y;
+    public FinePoint(FinePoint finePoint, double x, double y) {
+        this.x = finePoint.x + x;
+        this.y = finePoint.y + y;
     }
 
     @Override

@@ -10,5 +10,5 @@ public interface GraphicsObject {
 
     public Location getLocation();
 
-    public void paintOnScreen(FinePoint screenLocation);
+    public void paintOnScreen(FinePoint point);
 }

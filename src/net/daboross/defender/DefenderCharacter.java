@@ -4,7 +4,6 @@ import net.daboross.defender.graphics.FinePoint;
 import net.daboross.defender.graphics.GraphicsObject;
 import net.daboross.defender.graphics.HexagonStatics;
 import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 /**
@@ -36,51 +35,66 @@ public class DefenderCharacter implements GraphicsObject, Updatable {
         return new Location(hexX, hexY, 0, 0);
     }
 
-    public void paintOnScreen(FinePoint screenLocation) {
+    public void paintOnScreen(FinePoint point) {
         GL11.glColor3f(0, 0, 1);
-        HexagonStatics.drawHexagon(screenLocation.x, screenLocation.y, 30);
+        HexagonStatics.drawHexagon(point.x, point.y, 30);
     }
 
     public void update(DefenderMain main) {
+        int moveX = 0;
+        int moveY = 0;
+        boolean wsPressed = false;
         if (isWPressed()) {
-            hexY++;
+            moveY++;
+            wsPressed = true;
         }
         if (isSPressed()) {
-            hexY--;
+            moveY--;
+            wsPressed = true;
         }
         if (isAPressed()) {
-            if (hexX % 2 == 0) {
-                hexX--;
-            } else {
-                hexX--;
-                hexY--;
+            moveX--;
+            if (hexX % 2 != 0) {
+                if (!wsPressed) {
+                    moveY--;
+                }
             }
         }
         if (isQPressed()) {
-            if (hexX % 2 == 0) {
-                hexX--;
-                hexY++;
-            } else {
-                hexX--;
+            moveX--;
+            if (!wsPressed && hexX % 2 == 0) {
+                moveY++;
             }
         }
         if (isDPressed()) {
-            if (hexX % 2 == 0) {
-                hexX++;
-            } else {
-                hexX++;
-                hexY--;
+            moveX++;
+            if (!wsPressed && hexX % 2 != 0) {
+                moveY--;
             }
         }
         if (isEPressed()) {
-            if (hexX % 2 == 0) {
-                hexX++;
-                hexY++;
-            } else {
-                hexX++;
+            moveX++;
+            if (!wsPressed && hexX % 2 == 0) {
+                moveY++;
             }
         }
-        Keyboard.next();
+        if (moveX > 1) {
+            moveX = 1;
+        }
+        if (moveX < -1) {
+            moveX = -1;
+        }
+        if (moveY > 1) {
+            moveY = 1;
+        }
+        if (moveY < -1) {
+            moveY = -1;
+        }
+        hexX += moveX;
+        hexY += moveY;
+        if (Keyboard.isKeyDown(Keyboard.KEY_X)) {
+            main.gameGraphics.centerOn(this.getLocation());
+        }
     }
 
     private boolean isWPressed() {
@@ -89,9 +103,9 @@ public class DefenderCharacter implements GraphicsObject, Updatable {
                 lastWPress = System.currentTimeMillis();
                 lastWPressed = true;
                 return true;
-            } else {
-                lastWPressed = false;
             }
+        } else {
+            lastWPressed = false;
         }
         return false;
     }
@@ -102,9 +116,9 @@ public class DefenderCharacter implements GraphicsObject, Updatable {
                 lastSPress = System.currentTimeMillis();
                 lastSPressed = true;
                 return true;
-            } else {
-                lastSPressed = false;
             }
+        } else {
+            lastSPressed = false;
         }
         return false;
     }
@@ -115,9 +129,9 @@ public class DefenderCharacter implements GraphicsObject, Updatable {
                 lastAPress = System.currentTimeMillis();
                 lastAPressed = true;
                 return true;
-            } else {
-                lastAPressed = false;
             }
+        } else {
+            lastAPressed = false;
         }
         return false;
     }
@@ -128,9 +142,9 @@ public class DefenderCharacter implements GraphicsObject, Updatable {
                 lastDPress = System.currentTimeMillis();
                 lastDPressed = true;
                 return true;
-            } else {
-                lastDPressed = false;
             }
+        } else {
+            lastDPressed = false;
         }
         return false;
     }
@@ -141,9 +155,9 @@ public class DefenderCharacter implements GraphicsObject, Updatable {
                 lastQPress = System.currentTimeMillis();
                 lastQPressed = true;
                 return true;
-            } else {
-                lastQPressed = false;
             }
+        } else {
+            lastQPressed = false;
         }
         return false;
     }
@@ -154,9 +168,9 @@ public class DefenderCharacter implements GraphicsObject, Updatable {
                 lastEPress = System.currentTimeMillis();
                 lastEPressed = true;
                 return true;
-            } else {
-                lastEPressed = false;
             }
+        } else {
+            lastEPressed = false;
         }
         return false;
     }
