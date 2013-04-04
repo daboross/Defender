@@ -1,15 +1,14 @@
 package net.daboross.defender.graphics;
 
-import java.nio.ByteBuffer;
 import net.daboross.defender.Location;
 
 /**
  *
  * @author daboross
  */
-public abstract class GraphicsObject {
+public interface GraphicsObject {
 
-    public abstract Location getLocation();
+    public Location getLocation();
 
-    public abstract ByteBuffer getImage();
+    public void paintOnScreen(FinePoint screenLocation);
 }

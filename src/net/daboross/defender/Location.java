@@ -6,10 +6,17 @@ package net.daboross.defender;
  */
 public class Location implements Cloneable {
 
-    private final int hexX;
-    private final int hexY;
-    private final double driftX;
-    private final double driftY;
+    public final int hexX;
+    public final int hexY;
+    public final double driftX;
+    public final double driftY;
+
+    public Location() {
+        this.hexX = 0;
+        this.hexY = 0;
+        this.driftX = 0;
+        this.driftY = 0;
+    }
 
     public Location(final int hexX, final int hexY, final double driftX, final double driftY) {
         this.hexX = hexX;
@@ -18,20 +25,11 @@ public class Location implements Cloneable {
         this.driftY = driftY;
     }
 
-    public int hexX() {
-        return hexX;
-    }
-
-    public int hexY() {
-        return hexY;
-    }
-
-    public double driftX() {
-        return driftX;
-    }
-
-    public double driftY() {
-        return driftY;
+    public Location(final Location location, final int hexX, final int hexY, final double driftX, final double driftY) {
+        this.hexX = location.hexX + hexX;
+        this.hexY = location.hexY + hexY;
+        this.driftX = location.driftX + driftX;
+        this.driftY = location.driftY + driftY;
     }
 
     @Override

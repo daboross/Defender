@@ -1,7 +1,6 @@
 package net.daboross.defender;
 
 import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.Display;
 
 /**
  *
@@ -9,40 +8,32 @@ import org.lwjgl.opengl.Display;
  */
 public class ScrollListener {
 
-    private static final int edgeDistance = 50;
-    private static final int move = 10;
+    private static final int MOUSE_BUTTON = 0;
     private final DefenderMain main;
+    private boolean pressedLast;
+    private int mouseXLast;
+    private int mouseYLast;
 
     public ScrollListener(final DefenderMain main) {
         this.main = main;
     }
 
     public void update() {
-        xCheck(Mouse.getX());
-        yCheck(Mouse.getY());
-    }
-
-    private void xCheck(final int mouseX) {
-        int leftBound = edgeDistance;
-        int rightBound = Display.getWidth() - edgeDistance;
-        if (mouseX < leftBound) {
-            main.setCurrentMovementX((leftBound - mouseX) / 5);
-        } else if (mouseX > rightBound) {
-            main.setCurrentMovementX((rightBound - mouseX) / 5);
+        if (Mouse.isButtonDown(MOUSE_BUTTON)) {
+            if (pressedLast) {
+                main.gameGraphics.addScroll(Mouse.getX() - mouseXLast, Mouse.getY() - mouseYLast);
+                mouseXLast = Mouse.getX();
+                mouseYLast = Mouse.getY();
+            } else {
+                mouseXLast = Mouse.getX();
+                mouseYLast = Mouse.getY();
+                pressedLast = true;
+            }
         } else {
-            main.setCurrentMovementX(0);
-        }
-    }
-
-    private void yCheck(final int mouseY) {
-        int topBound = edgeDistance;
-        int bottomBound = Display.getHeight() - edgeDistance;
-        if (mouseY < topBound) {
-            main.setCurrentMovementY((topBound - mouseY) / 5);
-        } else if (mouseY > bottomBound) {
-            main.setCurrentMovementY((bottomBound - mouseY) / 5);
-        } else {
-            main.setCurrentMovementY(0);
+            if (pressedLast) {
+                main.gameGraphics.addScroll(Mouse.getX() - mouseXLast, Mouse.getY() - mouseYLast);
+                pressedLast = false;
+            }
         }
     }
 }

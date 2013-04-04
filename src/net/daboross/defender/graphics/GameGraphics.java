@@ -56,7 +56,9 @@ public class GameGraphics {
     private void paintObjects() {
         for (GraphicsObject o : objectList) {
             Location l = o.getLocation();
-
+            FinePoint hexCenter = hexLocation(l.hexX, l.hexY);
+            FinePoint finalLocation = new FinePoint(hexCenter, l.driftX, l.driftY);
+            o.paintOnScreen(finalLocation);
         }
     }
 
@@ -65,9 +67,6 @@ public class GameGraphics {
         paintGrid();
         paintObjects();
         Display.update();
-    }
-
-    public void getHexLocation(int hexX, int hexY) {
     }
 
     private static void clearScreen() {
@@ -89,7 +88,13 @@ public class GameGraphics {
         }
     }
 
-    public static void drawHexagon(double x, double y) {
+    private FinePoint hexLocation(int hexX, int hexY) {
+        double x = scrollX + HexagonStatics.xDistance * hexX;
+        double y = scrollY + (hexX % 2 == 0 ? HexagonStatics.yDistance / 2 : 0) + hexY * HexagonStatics.yDistance;
+        return new FinePoint(x, y);
+    }
+
+    private static void drawHexagon(double x, double y) {
         for (int i = 0; i < 6; i++) {
             GL11.glBegin(GL11.GL_TRIANGLES);
             GL11.glVertex2d(x, y);

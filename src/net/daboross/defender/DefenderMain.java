@@ -2,14 +2,18 @@ package net.daboross.defender;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
+import net.daboross.defender.graphics.DColor;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 import net.daboross.defender.graphics.GameGraphics;
+import net.daboross.defender.graphics.hexagonobjects.StaticHexagonObject;
 import org.lwjgl.opengl.AWTGLCanvas;
 
 /**
@@ -20,16 +24,13 @@ public class DefenderMain {
 
     private final AWTGLCanvas parentCanvas;
     private final DefenderThread defThread;
-    private final GameGraphics gameGraphics;
+    public final GameGraphics gameGraphics;
     private final JFrame frame;
     private final ScrollListener scrollListener;
     private double currentMovementX;
     private double currentMovementY;
+    private List<Updatable> updatables = new ArrayList<Updatable>();
 
-    /**
-     *
-     * @param parent_canvas
-     */
     public DefenderMain(final JFrame frame) {
         if (frame == null) {
             throw new IllegalArgumentException();
@@ -64,12 +65,37 @@ public class DefenderMain {
                 System.out.println("moved");
             }
         });
+        addHexs();
+        DefenderCharacter defenderCharacter = new DefenderCharacter(this);
+        addUpdatable(defenderCharacter);
+        gameGraphics.addObject(defenderCharacter);
+    }
+
+    private void addHexs() {
+        int i = 5;
+        for (int x = -i; x <= i; x++) {
+            for (int y = -i; y <= i; y++) {
+                gameGraphics.addObject(new StaticHexagonObject(new Location(x, y, currentMovementX, currentMovementY), new DColor(1 - x / (float) i, y / (float) i, 0.5f)));
+            }
+        }
+//        gameGraphics.addObject(new StaticHexagonObject(new Location(0, 0, currentMovementX, currentMovementY), new DColor(1, 0, 0)));
+//        gameGraphics.addObject(new StaticHexagonObject(new Location(-1, 0, currentMovementX, currentMovementY), new DColor(0, 1, 0)));
+//        gameGraphics.addObject(new StaticHexagonObject(new Location(1, 0, currentMovementX, currentMovementY), new DColor(0, 1, 0)));
+//        gameGraphics.addObject(new StaticHexagonObject(new Location(-1, -1, currentMovementX, currentMovementY), new DColor(0, 1, 0)));
+//        gameGraphics.addObject(new StaticHexagonObject(new Location(1, -1, currentMovementX, currentMovementY), new DColor(0, 1, 0)));
     }
 
     protected void runLoop() {
         scrollListener.update();
+        this.updateUpdatables();
         gameGraphics.addScroll(currentMovementX, currentMovementY);
         gameGraphics.updateScreen();
+    }
+
+    private void updateUpdatables() {
+        for (Updatable updatable : updatables) {
+            updatable.update(this);
+        }
     }
 
     protected void afterRun() {
@@ -114,5 +140,9 @@ public class DefenderMain {
 
     public int getScreenHeight() {
         return frame.getHeight();
+    }
+
+    public void addUpdatable(Updatable u) {
+        updatables.add(u);
     }
 }
