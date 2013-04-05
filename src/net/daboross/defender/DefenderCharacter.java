@@ -15,6 +15,8 @@ public class DefenderCharacter implements GraphicsObject, Updatable {
     private static final long longestKeyPress = 500;
     private int hexX;
     private int hexY;
+    private int moveX;
+    private int moveY;
     private long lastWPress;
     private long lastSPress;
     private long lastAPress;
@@ -41,8 +43,6 @@ public class DefenderCharacter implements GraphicsObject, Updatable {
     }
 
     public void update(DefenderMain main) {
-        int moveX = 0;
-        int moveY = 0;
         boolean wsPressed = false;
         if (isWPressed()) {
             moveY++;
