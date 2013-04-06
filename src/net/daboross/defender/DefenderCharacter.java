@@ -23,9 +23,12 @@ public class DefenderCharacter implements GraphicsObject, Updatable {
     private static final int HEX_MOVE_DOWN = 4;
     private static final int HEX_MOVE_LEFT_UP = 5;
     private static final int HEX_MOVE_LEFT_DOWN = 6;
-    private int hexX;
-    private int hexY;
-    private int currentHexMove;
+    private static final int STARTING_HEX_X = 0;
+    private static final int STARTING_HEX_Y = 0;
+    private int hexX = STARTING_HEX_X;
+    private int hexY = STARTING_HEX_Y;
+    private int currentHexMove = HEX_MOVE_NONE;
+    private boolean moving = false;
 
     public DefenderCharacter() {
     }
@@ -40,26 +43,28 @@ public class DefenderCharacter implements GraphicsObject, Updatable {
     }
 
     public void update(DefenderMain main) {
-        currentHexMove = HEX_MOVE_NONE;
-        if (isKeyDown(Keyboard.KEY_W)) {
-            setMove(HEX_MOVE_UP);
+        if (!moving) {
+            currentHexMove = HEX_MOVE_NONE;
+            if (isKeyDown(Keyboard.KEY_W)) {
+                setMove(HEX_MOVE_UP);
+            }
+            if (isKeyDown(Keyboard.KEY_S)) {
+                setMove(HEX_MOVE_DOWN);
+            }
+            if (isKeyDown(Keyboard.KEY_A)) {
+                setMove(HEX_MOVE_LEFT_DOWN);
+            }
+            if (isKeyDown(Keyboard.KEY_Q)) {
+                setMove(HEX_MOVE_LEFT_UP);
+            }
+            if (isKeyDown(Keyboard.KEY_D)) {
+                setMove(HEX_MOVE_RIGHT_DOWN);
+            }
+            if (isKeyDown(Keyboard.KEY_E)) {
+                setMove(HEX_MOVE_RIGHT_UP);
+            }
         }
-        if (isKeyDown(Keyboard.KEY_S)) {
-            setMove(HEX_MOVE_DOWN);
-        }
-        if (isKeyDown(Keyboard.KEY_A)) {
-            setMove(HEX_MOVE_LEFT_DOWN);
-        }
-        if (isKeyDown(Keyboard.KEY_Q)) {
-            setMove(HEX_MOVE_LEFT_UP);
-        }
-        if (isKeyDown(Keyboard.KEY_D)) {
-            setMove(HEX_MOVE_RIGHT_DOWN);
-        }
-        if (isKeyDown(Keyboard.KEY_E)) {
-            setMove(HEX_MOVE_RIGHT_UP);
-        }
-
+        refreshMove();
         if (Keyboard.isKeyDown(Keyboard.KEY_X)) {
             main.gameGraphics.centerOn(this.getLocation());
         }
@@ -76,8 +81,18 @@ public class DefenderCharacter implements GraphicsObject, Updatable {
                     case HEX_MOVE_NONE:
                         currentHexMove = HEX_MOVE_UP;
                         break;
+                    case HEX_MOVE_UP:
+                        break;
+                    case HEX_MOVE_RIGHT_UP:
+                        break;
+                    case HEX_MOVE_RIGHT_DOWN:
+                        break;
                     case HEX_MOVE_DOWN:
                         currentHexMove = HEX_MOVE_NONE;
+                        break;
+                    case HEX_MOVE_LEFT_DOWN:
+                        break;
+                    case HEX_MOVE_LEFT_UP:
                         break;
                 }
                 break;
@@ -87,17 +102,22 @@ public class DefenderCharacter implements GraphicsObject, Updatable {
                     case HEX_MOVE_NONE:
                         currentHexMove = HEX_MOVE_RIGHT_UP;
                         break;
+                    case HEX_MOVE_UP:
+                        currentHexMove = HEX_MOVE_RIGHT_UP;
+                        break;
+                    case HEX_MOVE_RIGHT_UP:
+                        break;
+                    case HEX_MOVE_RIGHT_DOWN:
+                        currentHexMove = HEX_MOVE_RIGHT_UP;
+                        break;
+                    case HEX_MOVE_DOWN:
+                        currentHexMove = HEX_MOVE_RIGHT_DOWN;
+                        break;
                     case HEX_MOVE_LEFT_DOWN:
                         currentHexMove = HEX_MOVE_NONE;
                         break;
                     case HEX_MOVE_LEFT_UP:
                         currentHexMove = HEX_MOVE_UP;
-                        break;
-                    case HEX_MOVE_UP:
-                        currentHexMove = HEX_MOVE_RIGHT_UP;
-                        break;
-                    case HEX_MOVE_DOWN:
-                        currentHexMove = HEX_MOVE_RIGHT_DOWN;
                         break;
                 }
                 break;
@@ -107,16 +127,19 @@ public class DefenderCharacter implements GraphicsObject, Updatable {
                     case HEX_MOVE_NONE:
                         currentHexMove = HEX_MOVE_RIGHT_DOWN;
                         break;
-                    case HEX_MOVE_LEFT_UP:
-                        currentHexMove = HEX_MOVE_NONE;
+                    case HEX_MOVE_DOWN:
+                        currentHexMove = HEX_MOVE_RIGHT_DOWN;
                         break;
                     case HEX_MOVE_LEFT_DOWN:
                         currentHexMove = HEX_MOVE_DOWN;
                         break;
-                    case HEX_MOVE_DOWN:
-                        currentHexMove = HEX_MOVE_RIGHT_DOWN;
+                    case HEX_MOVE_LEFT_UP:
+                        currentHexMove = HEX_MOVE_NONE;
                         break;
                     case HEX_MOVE_UP:
+                        currentHexMove = HEX_MOVE_RIGHT_UP;
+                        break;
+                    case HEX_MOVE_RIGHT_UP:
                         break;
                 }
                 break;
@@ -126,6 +149,19 @@ public class DefenderCharacter implements GraphicsObject, Updatable {
                     case HEX_MOVE_NONE:
                         currentHexMove = HEX_MOVE_DOWN;
                         break;
+                    case HEX_MOVE_UP:
+                        currentHexMove = HEX_MOVE_NONE;
+                        break;
+                    case HEX_MOVE_RIGHT_UP:
+                        break;
+                    case HEX_MOVE_RIGHT_DOWN:
+                        break;
+                    case HEX_MOVE_DOWN:
+                        break;
+                    case HEX_MOVE_LEFT_DOWN:
+                        break;
+                    case HEX_MOVE_LEFT_UP:
+                        break;
                 }
                 break;
 
@@ -133,6 +169,22 @@ public class DefenderCharacter implements GraphicsObject, Updatable {
                 switch (currentHexMove) {
                     case HEX_MOVE_NONE:
                         currentHexMove = HEX_MOVE_LEFT_DOWN;
+                        break;
+                    case HEX_MOVE_UP:
+                        currentHexMove = HEX_MOVE_LEFT_UP;
+                        break;
+                    case HEX_MOVE_RIGHT_UP:
+                        currentHexMove = HEX_MOVE_NONE;
+                        break;
+                    case HEX_MOVE_RIGHT_DOWN:
+                        currentHexMove = HEX_MOVE_DOWN;
+                        break;
+                    case HEX_MOVE_DOWN:
+                        currentHexMove = HEX_MOVE_LEFT_DOWN;
+                        break;
+                    case HEX_MOVE_LEFT_DOWN:
+                        break;
+                    case HEX_MOVE_LEFT_UP:
                         break;
                 }
                 break;
@@ -142,12 +194,42 @@ public class DefenderCharacter implements GraphicsObject, Updatable {
                     case HEX_MOVE_NONE:
                         currentHexMove = HEX_MOVE_LEFT_UP;
                         break;
+                    case HEX_MOVE_UP:
+                        currentHexMove = HEX_MOVE_LEFT_UP;
+                        break;
+                    case HEX_MOVE_RIGHT_UP:
+                        currentHexMove = HEX_MOVE_UP;
+                        break;
+                    case HEX_MOVE_RIGHT_DOWN:
+                        currentHexMove = HEX_MOVE_NONE;
+                        break;
+                    case HEX_MOVE_DOWN:
+                        currentHexMove = HEX_MOVE_LEFT_DOWN;
+                        break;
+                    case HEX_MOVE_LEFT_DOWN:
+                        currentHexMove = HEX_MOVE_LEFT_UP;
+                        break;
+                    case HEX_MOVE_LEFT_UP:
+                        break;
                 }
                 break;
 
             default:
                 L.log(Level.INFO, "hex move called with unknown constant:{0}", hexMove);
                 break;
+        }
+    }
+
+    private void refreshMove() {
+        if (moving) {
+            if (currentHexMove == HEX_MOVE_NONE) {
+                moving = false;
+                return;
+            }
+            moving = false;
+        } else {
+            if (currentHexMove != HEX_MOVE_NONE) {
+            }
         }
     }
 }
