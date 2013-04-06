@@ -31,6 +31,25 @@ public class DefenderCharacter implements GraphicsObject, Updatable {
     private boolean moving = false;//This should not be changed outside of refreshMove()
     private int movePercentage;//This should not be changed outside of refreshMove()
 
+    private static String getMoveName(int hexMove) {
+        switch (hexMove) {
+            case HEX_MOVE_UP:
+                return "HEX MOVE UP";
+            case HEX_MOVE_RIGHT_UP:
+                return "HEX MOVE RIGHT UP";
+            case HEX_MOVE_RIGHT_DOWN:
+                return "HEX MOVE RIGHT DOWN";
+            case HEX_MOVE_DOWN:
+                return "HEX MOVE DOWN";
+            case HEX_MOVE_LEFT_DOWN:
+                return "HEX MOVE LEFT DOWN";
+            case HEX_MOVE_LEFT_UP:
+                return "HEX MOVE LEFT UP";
+            default:
+                return "Unknown: \"" + hexMove + "\"";
+        }
+    }
+
     public DefenderCharacter() {
     }
 
@@ -242,10 +261,11 @@ public class DefenderCharacter implements GraphicsObject, Updatable {
                 case HEX_MOVE_LEFT_UP:
                     break;
             }
-            movePercentage++;
+            movePercentage += 20;
         } else {
             if (currentHexMove != HEX_MOVE_NONE) {
                 moving = true;
+                System.out.println("Hex Move: " + getMoveName(currentHexMove));
             }
         }
     }
