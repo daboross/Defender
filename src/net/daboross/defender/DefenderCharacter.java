@@ -28,7 +28,8 @@ public class DefenderCharacter implements GraphicsObject, Updatable {
     private int hexX = STARTING_HEX_X;
     private int hexY = STARTING_HEX_Y;
     private int currentHexMove = HEX_MOVE_NONE;
-    private boolean moving = false;
+    private boolean moving = false;//This should not be changed outside of refreshMove()
+    private int movePercentage;//This should not be changed outside of refreshMove()
 
     public DefenderCharacter() {
     }
@@ -222,14 +223,72 @@ public class DefenderCharacter implements GraphicsObject, Updatable {
 
     private void refreshMove() {
         if (moving) {
-            if (currentHexMove == HEX_MOVE_NONE) {
-                moving = false;
+            if (movePercentage >= 100) {
+                changeMoveIntoHexMove();
+                stopMove();
                 return;
             }
-            moving = false;
+            switch (currentHexMove) {
+                case HEX_MOVE_UP:
+                    break;
+                case HEX_MOVE_RIGHT_UP:
+                    break;
+                case HEX_MOVE_RIGHT_DOWN:
+                    break;
+                case HEX_MOVE_DOWN:
+                    break;
+                case HEX_MOVE_LEFT_DOWN:
+                    break;
+                case HEX_MOVE_LEFT_UP:
+                    break;
+            }
+            movePercentage++;
         } else {
             if (currentHexMove != HEX_MOVE_NONE) {
+                moving = true;
             }
         }
+    }
+
+    /**
+     * This should NOT be called outside of refreshMove()
+     */
+    private void changeMoveIntoHexMove() {
+        switch (currentHexMove) {
+            case HEX_MOVE_NONE:
+                break;
+            case HEX_MOVE_UP:
+                hexY++;
+                break;
+            case HEX_MOVE_RIGHT_UP:
+
+                break;
+            case HEX_MOVE_RIGHT_DOWN:
+                break;
+            case HEX_MOVE_DOWN:
+                hexY--;
+                break;
+            case HEX_MOVE_LEFT_DOWN:
+                if (hexX % 2 != 0) {
+                    hexY--;
+                }
+                hexX--;
+                break;
+            case HEX_MOVE_LEFT_UP:
+                if (hexX % 2 == 0) {
+                    hexY++;
+                }
+                hexX--;
+                break;
+        }
+    }
+
+    /**
+     * This should not be changed outside of refreshMove()
+     */
+    private void stopMove() {
+        moving = false;
+        movePercentage = 0;
+        currentHexMove = HEX_MOVE_NONE;
     }
 }
