@@ -180,13 +180,13 @@ public class GLImage {
      * local filesytem, in the applet folder, or in a jar.
      */
     public static BufferedImage loadJavaImage(String imgName) {
-        BufferedImage tmpi = null;
+        BufferedImage tempImage = null;
         try {
-            tmpi = ImageIO.read(GLApp.getInputStream(imgName));
+            tempImage = ImageIO.read(GLApp.getInputStream(imgName));
         } catch (Exception e) {
             GLApp.err("GLImage.loadJavaImage() exception: FAILED TO LOAD IMAGE " + e);
         }
-        return tmpi;
+        return tempImage;
     }
 
     /**

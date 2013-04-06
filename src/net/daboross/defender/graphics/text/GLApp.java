@@ -7,6 +7,8 @@ import java.lang.reflect.Method;
 import java.nio.*;
 import java.io.*;
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.lwjgl.*;
 import org.lwjgl.opengl.*;
 import org.lwjgl.input.*;
@@ -3610,21 +3612,6 @@ public class GLApp {
     }
 
     /**
-     * Return a random floating point value between 0 and 1
-     */
-    public static float random() {
-        return (float) Math.random();
-    }
-
-    /**
-     * Return a random floating point value between 0 and upperbound (not
-     * including upperbound)
-     */
-    public static float random(float upperbound) {
-        return (float) (Math.random() * (double) upperbound);
-    }
-
-    /**
      * Return a random integer value between 0 and upperbound (not including
      * upperbound)
      */
@@ -3666,13 +3653,13 @@ public class GLApp {
     }
 
     /**
-     * Show an error message on the system console (calls System.out.println()).
-     * Does not check showMessages flag.
+     * Show an error message on the system console Does not check showMessages
+     * flag.
      *
      * @param text
      */
     public static void err(String text) {
-        System.out.println(text);
+        Logger.getLogger(GLApp.class.getName()).log(Level.SEVERE, text);
     }
 
     /**
@@ -3694,7 +3681,7 @@ public class GLApp {
         Method M = null;
         try {
             // Look for a method with the given name and no parameters
-            M = object.getClass().getMethod(methodName, null);
+            M = object.getClass().getMethod(methodName, (Class<?>) null);
         } catch (Exception e) {
             err("GLApp.method(): Can't find method (" + methodName + ").  " + e);
         }
@@ -3725,7 +3712,7 @@ public class GLApp {
         if (object != null && method != null) {
             try {
                 // Call the method with this object as the argument!
-                method.invoke(object, null);
+                method.invoke(object, (Object) null);
             } catch (Exception e) {
                 // Error handling
                 System.err.println("GLApp.invoke(): couldn't invoke method " + method.getName() + " on object " + object.getClass().getName());
@@ -3745,7 +3732,7 @@ public class GLApp {
         if (method != null) {
             try {
                 // Call the method with this object as the argument!
-                method.invoke(this, null);
+                method.invoke(this, (Object) null);
             } catch (Exception e) {
                 // Error handling
                 System.err.println("GLApp.invoke(): couldn't invoke method " + method.getName() + " on object " + this.getClass().getName());
