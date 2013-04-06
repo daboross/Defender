@@ -281,9 +281,16 @@ public class DefenderCharacter implements GraphicsObject, Updatable {
                 hexY++;
                 break;
             case HEX_MOVE_RIGHT_UP:
-
+                if (hexX % 2 == 0) {
+                    hexY++;
+                }
+                hexX++;
                 break;
             case HEX_MOVE_RIGHT_DOWN:
+                if (hexX % 2 != 0) {
+                    hexY--;
+                }
+                hexX++;
                 break;
             case HEX_MOVE_DOWN:
                 hexY--;
