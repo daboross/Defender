@@ -1,10 +1,13 @@
 package net.daboross.defender;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import net.daboross.defender.graphics.FinePoint;
 import net.daboross.defender.graphics.GraphicsObject;
 import net.daboross.defender.graphics.HexagonStatics;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
+import static org.lwjgl.input.Keyboard.isKeyDown;
 
 /**
  *
@@ -12,23 +15,17 @@ import org.lwjgl.opengl.GL11;
  */
 public class DefenderCharacter implements GraphicsObject, Updatable {
 
-    private static final long longestKeyPress = 500;
+    private static final Logger L = Logger.getLogger(DefenderCharacter.class.getSimpleName());
+    private static final int HEX_MOVE_NONE = 0;
+    private static final int HEX_MOVE_UP = 1;
+    private static final int HEX_MOVE_RIGHT_UP = 2;
+    private static final int HEX_MOVE_RIGHT_DOWN = 3;
+    private static final int HEX_MOVE_DOWN = 4;
+    private static final int HEX_MOVE_LEFT_UP = 5;
+    private static final int HEX_MOVE_LEFT_DOWN = 6;
     private int hexX;
     private int hexY;
-    private int moveX;
-    private int moveY;
-    private long lastWPress;
-    private long lastSPress;
-    private long lastAPress;
-    private long lastDPress;
-    private long lastQPress;
-    private long lastEPress;
-    private boolean lastWPressed;
-    private boolean lastSPressed;
-    private boolean lastAPressed;
-    private boolean lastDPressed;
-    private boolean lastQPressed;
-    private boolean lastEPressed;
+    private int currentHexMove;
 
     public DefenderCharacter() {
     }
@@ -43,135 +40,114 @@ public class DefenderCharacter implements GraphicsObject, Updatable {
     }
 
     public void update(DefenderMain main) {
-        boolean wsPressed = false;
-        if (isWPressed()) {
-            moveY++;
-            wsPressed = true;
+        currentHexMove = HEX_MOVE_NONE;
+        if (isKeyDown(Keyboard.KEY_W)) {
+            setMove(HEX_MOVE_UP);
         }
-        if (isSPressed()) {
-            moveY--;
-            wsPressed = true;
+        if (isKeyDown(Keyboard.KEY_S)) {
+            setMove(HEX_MOVE_DOWN);
         }
-        if (isAPressed()) {
-            moveX--;
-            if (hexX % 2 != 0) {
-                if (!wsPressed) {
-                    moveY--;
-                }
-            }
+        if (isKeyDown(Keyboard.KEY_A)) {
+            setMove(HEX_MOVE_LEFT_DOWN);
         }
-        if (isQPressed()) {
-            moveX--;
-            if (!wsPressed && hexX % 2 == 0) {
-                moveY++;
-            }
+        if (isKeyDown(Keyboard.KEY_Q)) {
+            setMove(HEX_MOVE_LEFT_UP);
         }
-        if (isDPressed()) {
-            moveX++;
-            if (!wsPressed && hexX % 2 != 0) {
-                moveY--;
-            }
+        if (isKeyDown(Keyboard.KEY_D)) {
+            setMove(HEX_MOVE_RIGHT_DOWN);
         }
-        if (isEPressed()) {
-            moveX++;
-            if (!wsPressed && hexX % 2 == 0) {
-                moveY++;
-            }
+        if (isKeyDown(Keyboard.KEY_E)) {
+            setMove(HEX_MOVE_RIGHT_UP);
         }
-        if (moveX > 1) {
-            moveX = 1;
-        }
-        if (moveX < -1) {
-            moveX = -1;
-        }
-        if (moveY > 1) {
-            moveY = 1;
-        }
-        if (moveY < -1) {
-            moveY = -1;
-        }
-        hexX += moveX;
-        hexY += moveY;
+
         if (Keyboard.isKeyDown(Keyboard.KEY_X)) {
             main.gameGraphics.centerOn(this.getLocation());
         }
     }
 
-    private boolean isWPressed() {
-        if (Keyboard.isKeyDown(Keyboard.KEY_W)) {
-            if (System.currentTimeMillis() - lastWPress > longestKeyPress || !lastWPressed) {
-                lastWPress = System.currentTimeMillis();
-                lastWPressed = true;
-                return true;
-            }
-        } else {
-            lastWPressed = false;
-        }
-        return false;
-    }
+    public void setMove(int hexMove) {
+        switch (hexMove) {
+            case HEX_MOVE_NONE:
+                currentHexMove = HEX_MOVE_NONE;
+                break;
 
-    private boolean isSPressed() {
-        if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
-            if (System.currentTimeMillis() - lastSPress > longestKeyPress || !lastSPressed) {
-                lastSPress = System.currentTimeMillis();
-                lastSPressed = true;
-                return true;
-            }
-        } else {
-            lastSPressed = false;
-        }
-        return false;
-    }
+            case HEX_MOVE_UP:
+                switch (currentHexMove) {
+                    case HEX_MOVE_NONE:
+                        currentHexMove = HEX_MOVE_UP;
+                        break;
+                    case HEX_MOVE_DOWN:
+                        currentHexMove = HEX_MOVE_NONE;
+                        break;
+                }
+                break;
 
-    private boolean isAPressed() {
-        if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
-            if (System.currentTimeMillis() - lastAPress > longestKeyPress || !lastAPressed) {
-                lastAPress = System.currentTimeMillis();
-                lastAPressed = true;
-                return true;
-            }
-        } else {
-            lastAPressed = false;
-        }
-        return false;
-    }
+            case HEX_MOVE_RIGHT_UP:
+                switch (currentHexMove) {
+                    case HEX_MOVE_NONE:
+                        currentHexMove = HEX_MOVE_RIGHT_UP;
+                        break;
+                    case HEX_MOVE_LEFT_DOWN:
+                        currentHexMove = HEX_MOVE_NONE;
+                        break;
+                    case HEX_MOVE_LEFT_UP:
+                        currentHexMove = HEX_MOVE_UP;
+                        break;
+                    case HEX_MOVE_UP:
+                        currentHexMove = HEX_MOVE_RIGHT_UP;
+                        break;
+                    case HEX_MOVE_DOWN:
+                        currentHexMove = HEX_MOVE_RIGHT_DOWN;
+                        break;
+                }
+                break;
 
-    private boolean isDPressed() {
-        if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
-            if (System.currentTimeMillis() - lastDPress > longestKeyPress || !lastDPressed) {
-                lastDPress = System.currentTimeMillis();
-                lastDPressed = true;
-                return true;
-            }
-        } else {
-            lastDPressed = false;
-        }
-        return false;
-    }
+            case HEX_MOVE_RIGHT_DOWN:
+                switch (currentHexMove) {
+                    case HEX_MOVE_NONE:
+                        currentHexMove = HEX_MOVE_RIGHT_DOWN;
+                        break;
+                    case HEX_MOVE_LEFT_UP:
+                        currentHexMove = HEX_MOVE_NONE;
+                        break;
+                    case HEX_MOVE_LEFT_DOWN:
+                        currentHexMove = HEX_MOVE_DOWN;
+                        break;
+                    case HEX_MOVE_DOWN:
+                        currentHexMove = HEX_MOVE_RIGHT_DOWN;
+                        break;
+                    case HEX_MOVE_UP:
+                        break;
+                }
+                break;
 
-    private boolean isQPressed() {
-        if (Keyboard.isKeyDown(Keyboard.KEY_Q)) {
-            if (System.currentTimeMillis() - lastQPress > longestKeyPress || !lastQPressed) {
-                lastQPress = System.currentTimeMillis();
-                lastQPressed = true;
-                return true;
-            }
-        } else {
-            lastQPressed = false;
-        }
-        return false;
-    }
+            case HEX_MOVE_DOWN:
+                switch (currentHexMove) {
+                    case HEX_MOVE_NONE:
+                        currentHexMove = HEX_MOVE_DOWN;
+                        break;
+                }
+                break;
 
-    private boolean isEPressed() {
-        if (Keyboard.isKeyDown(Keyboard.KEY_E)) {
-            if (System.currentTimeMillis() - lastEPress > longestKeyPress || !lastEPressed) {
-                lastEPress = System.currentTimeMillis();
-                lastEPressed = true;
-                return true;
-            }
-        } else {
-            lastEPressed = false;
+            case HEX_MOVE_LEFT_DOWN:
+                switch (currentHexMove) {
+                    case HEX_MOVE_NONE:
+                        currentHexMove = HEX_MOVE_LEFT_DOWN;
+                        break;
+                }
+                break;
+
+            case HEX_MOVE_LEFT_UP:
+                switch (currentHexMove) {
+                    case HEX_MOVE_NONE:
+                        currentHexMove = HEX_MOVE_LEFT_UP;
+                        break;
+                }
+                break;
+
+            default:
+                L.log(Level.INFO, "hex move called with unknown constant:{0}", hexMove);
+                break;
         }
-        return false;
     }
 }
