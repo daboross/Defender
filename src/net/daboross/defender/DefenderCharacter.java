@@ -1,13 +1,22 @@
 package net.daboross.defender;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Formatter;
+import java.util.logging.Handler;
 import java.util.logging.Level;
+import java.util.logging.LogRecord;
 import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 import net.daboross.defender.graphics.FinePoint;
 import net.daboross.defender.graphics.GraphicsObject;
 import net.daboross.defender.graphics.HexagonStatics;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 import static org.lwjgl.input.Keyboard.isKeyDown;
+import org.omg.Dynamic.Parameter;
 
 /**
  *
@@ -16,6 +25,22 @@ import static org.lwjgl.input.Keyboard.isKeyDown;
 public class DefenderCharacter implements GraphicsObject, Updatable {
 
     private static final Logger L = Logger.getLogger(DefenderCharacter.class.getSimpleName());
+
+    static {
+        Handler handler = new ConsoleHandler();
+        handler.setLevel(Level.ALL);
+        handler.setFormatter(new SimpleFormatter() {
+            @Override
+            public String format(LogRecord record) {
+                System.out.println("LGO:" + record.getMessage());
+                return super.format(record);
+            }
+        });
+        L.addHandler(handler);
+
+    }
+    private static final int SPEED = 20;
+    private static final int BEFORE_MOVE_WAIT = 3;
     private static final int HEX_MOVE_NONE = 0;
     private static final int HEX_MOVE_UP = 1;
     private static final int HEX_MOVE_RIGHT_UP = 2;
@@ -25,11 +50,14 @@ public class DefenderCharacter implements GraphicsObject, Updatable {
     private static final int HEX_MOVE_LEFT_DOWN = 6;
     private static final int STARTING_HEX_X = 0;
     private static final int STARTING_HEX_Y = 0;
-    private int hexX = STARTING_HEX_X;
-    private int hexY = STARTING_HEX_Y;
+    private int hexX = STARTING_HEX_X;//This should not be changed outside of changeMoveIntoHexMove()
+    private int hexY = STARTING_HEX_Y;//This should not be changed outside of changeMoveIntoHexMove()
+    private int offsetMoveX = 0;
+    private int offsetMoveY = 0;
     private int currentHexMove = HEX_MOVE_NONE;
     private boolean moving = false;//This should not be changed outside of refreshMove()
     private int movePercentage;//This should not be changed outside of refreshMove()
+    private int waitTime;//This should not be changed outside of refreshMove()
 
     private static String getMoveName(int hexMove) {
         switch (hexMove) {
@@ -247,26 +275,38 @@ public class DefenderCharacter implements GraphicsObject, Updatable {
                 stopMove();
                 return;
             }
-            switch (currentHexMove) {
-                case HEX_MOVE_UP:
-                    break;
-                case HEX_MOVE_RIGHT_UP:
-                    break;
-                case HEX_MOVE_RIGHT_DOWN:
-                    break;
-                case HEX_MOVE_DOWN:
-                    break;
-                case HEX_MOVE_LEFT_DOWN:
-                    break;
-                case HEX_MOVE_LEFT_UP:
-                    break;
-            }
-            movePercentage += 20;
+            changeOffSetMove();
+            movePercentage += SPEED;
         } else {
             if (currentHexMove != HEX_MOVE_NONE) {
-                moving = true;
-                System.out.println("Hex Move: " + getMoveName(currentHexMove));
+                if (waitTime >= BEFORE_MOVE_WAIT) {
+                    waitTime = 0;
+                    moving = true;
+                    L.log(Level.INFO, "Hex Move: {0}", getMoveName(currentHexMove));
+                } else {
+                    waitTime++;
+                }
             }
+        }
+    }
+
+    /**
+     * This should NOT be called outside of refreshMove()
+     */
+    private void changeOffSetMove() {
+        switch (currentHexMove) {
+            case HEX_MOVE_UP:
+                break;
+            case HEX_MOVE_RIGHT_UP:
+                break;
+            case HEX_MOVE_RIGHT_DOWN:
+                break;
+            case HEX_MOVE_DOWN:
+                break;
+            case HEX_MOVE_LEFT_DOWN:
+                break;
+            case HEX_MOVE_LEFT_UP:
+                break;
         }
     }
 
