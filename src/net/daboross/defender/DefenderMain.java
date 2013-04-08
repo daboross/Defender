@@ -41,14 +41,14 @@ public class DefenderMain {
             parentCanvasTemp = new AWTGLCanvas();
         } catch (LWJGLException lwjgle) {
             Logger.getLogger(DefenderMain.class.getName()).log(Level.SEVERE, "LWJGLException while creating canvas", lwjgle);
-            System.exit(1);
+            throw new RuntimeException(lwjgle);
         }
         this.parentCanvas = parentCanvasTemp;
         frame.getContentPane().add(parentCanvas);
         this.defThread = new DefenderThread(this);
         this.gameGraphics = new GameGraphics();
         this.frame = frame;
-        this.scrollListener = new ScrollListener(this);
+        this.scrollListener = new ScrollListener();
         character = new DefenderCharacter();
         gameGraphics.addObject(character);
         addUpdatable(character);

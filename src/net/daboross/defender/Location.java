@@ -43,7 +43,7 @@ public class Location implements Cloneable {
             return false;
         }
         Location l = (Location) obj;
-        return l.hexX == hexX && l.hexY == hexY && l.driftX == driftX && l.driftY == driftY;
+        return l.hexX == hexX && l.hexY == hexY && Math.abs(l.driftX - driftX) < 0.00000001 && Math.abs(l.driftY - driftY) < 0.00000001;
     }
 
     @Override

@@ -1,10 +1,6 @@
 package net.daboross.defender;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.logging.ConsoleHandler;
-import java.util.logging.Formatter;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
@@ -16,7 +12,6 @@ import net.daboross.defender.graphics.HexagonStatics;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 import static org.lwjgl.input.Keyboard.isKeyDown;
-import org.omg.Dynamic.Parameter;
 
 /**
  *
@@ -166,6 +161,8 @@ public class DefenderCharacter implements GraphicsObject, Updatable {
                         break;
                     case HEX_MOVE_LEFT_UP:
                         currentHexMove = HEX_MOVE_UP;
+                        break;
+                    default:
                         break;
                 }
                 break;
@@ -346,6 +343,8 @@ public class DefenderCharacter implements GraphicsObject, Updatable {
                     hexY++;
                 }
                 hexX--;
+                break;
+            default:
                 break;
         }
     }

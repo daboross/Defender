@@ -33,7 +33,7 @@ public class GameGraphics {
 
     public GameGraphics() {
         objectList = new ArrayList<GraphicsObject>();
-        addScroll(Display.getWidth() / 2, Display.getHeight() / 2);
+        addScroll(Display.getWidth() / 2.0, Display.getHeight() / 2.0);
     }
 
     public final void addScroll(final double x, final double y) {
@@ -45,8 +45,8 @@ public class GameGraphics {
 
     public void centerOn(Location loc) {
         FinePoint point = new FinePoint(hexLocationWithoutScroll(loc.hexX, loc.hexY), loc.driftX, loc.driftY);
-        scrollX = -point.x + Display.getWidth() / 2;
-        scrollY = -point.y + Display.getHeight() / 2;
+        scrollX = -point.x + Display.getWidth() / 2.0;
+        scrollY = -point.y + Display.getHeight() / 2.0;
     }
 
     public void addObject(GraphicsObject go) {

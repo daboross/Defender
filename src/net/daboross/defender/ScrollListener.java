@@ -11,13 +11,11 @@ public class ScrollListener implements Updatable {
 
     private static final int MOUSE_BUTTON = 0;
     public static final int CENTER_BUTTON = 1;
-    private final DefenderMain main;
     private boolean pressedLast;
     private int mouseXLast;
     private int mouseYLast;
 
-    public ScrollListener(final DefenderMain main) {
-        this.main = main;
+    public ScrollListener() {
     }
 
     public void update(DefenderMain main) {

@@ -35,7 +35,7 @@ public class FinePoint implements Cloneable {
             return false;
         }
         FinePoint otherFinePoint = (FinePoint) other;
-        return this.x == otherFinePoint.x && this.y == otherFinePoint.y;
+        return Math.abs(this.x - otherFinePoint.x) < 0.00000001 && Math.abs(this.y - otherFinePoint.y) < 0.00000001;
 
     }
 
