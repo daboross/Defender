@@ -121,142 +121,142 @@ public class DefenderCharacter implements GraphicsObject, Updatable {
 
             case HEX_MOVE_UP:
                 switch (currentHexMove) {
-                case HEX_MOVE_NONE:
-                    currentHexMove = HEX_MOVE_UP;
-                    break;
-                case HEX_MOVE_UP:
-                    break;
-                case HEX_MOVE_RIGHT_UP:
-                    break;
-                case HEX_MOVE_RIGHT_DOWN:
-                    break;
-                case HEX_MOVE_DOWN:
-                    currentHexMove = HEX_MOVE_NONE;
-                    break;
-                case HEX_MOVE_LEFT_DOWN:
-                    break;
-                case HEX_MOVE_LEFT_UP:
-                    break;
-            }
+                    case HEX_MOVE_NONE:
+                        currentHexMove = HEX_MOVE_UP;
+                        break;
+                    case HEX_MOVE_UP:
+                        break;
+                    case HEX_MOVE_RIGHT_UP:
+                        break;
+                    case HEX_MOVE_RIGHT_DOWN:
+                        break;
+                    case HEX_MOVE_DOWN:
+                        currentHexMove = HEX_MOVE_NONE;
+                        break;
+                    case HEX_MOVE_LEFT_DOWN:
+                        break;
+                    case HEX_MOVE_LEFT_UP:
+                        break;
+                }
                 break;
 
             case HEX_MOVE_RIGHT_UP:
                 switch (currentHexMove) {
-                case HEX_MOVE_NONE:
-                    currentHexMove = HEX_MOVE_RIGHT_UP;
-                    break;
-                case HEX_MOVE_UP:
-                    currentHexMove = HEX_MOVE_RIGHT_UP;
-                    break;
-                case HEX_MOVE_RIGHT_UP:
-                    break;
-                case HEX_MOVE_RIGHT_DOWN:
-                    currentHexMove = HEX_MOVE_RIGHT_UP;
-                    break;
-                case HEX_MOVE_DOWN:
-                    currentHexMove = HEX_MOVE_RIGHT_DOWN;
-                    break;
-                case HEX_MOVE_LEFT_DOWN:
-                    currentHexMove = HEX_MOVE_NONE;
-                    break;
-                case HEX_MOVE_LEFT_UP:
-                    currentHexMove = HEX_MOVE_UP;
-                    break;
-                default:
-                    break;
-            }
+                    case HEX_MOVE_NONE:
+                        currentHexMove = HEX_MOVE_RIGHT_UP;
+                        break;
+                    case HEX_MOVE_UP:
+                        currentHexMove = HEX_MOVE_RIGHT_UP;
+                        break;
+                    case HEX_MOVE_RIGHT_UP:
+                        break;
+                    case HEX_MOVE_RIGHT_DOWN:
+                        currentHexMove = HEX_MOVE_RIGHT_UP;
+                        break;
+                    case HEX_MOVE_DOWN:
+                        currentHexMove = HEX_MOVE_RIGHT_DOWN;
+                        break;
+                    case HEX_MOVE_LEFT_DOWN:
+                        currentHexMove = HEX_MOVE_NONE;
+                        break;
+                    case HEX_MOVE_LEFT_UP:
+                        currentHexMove = HEX_MOVE_UP;
+                        break;
+                    default:
+                        break;
+                }
                 break;
 
             case HEX_MOVE_RIGHT_DOWN:
                 switch (currentHexMove) {
-                case HEX_MOVE_NONE:
-                    currentHexMove = HEX_MOVE_RIGHT_DOWN;
-                    break;
-                case HEX_MOVE_DOWN:
-                    currentHexMove = HEX_MOVE_RIGHT_DOWN;
-                    break;
-                case HEX_MOVE_LEFT_DOWN:
-                    currentHexMove = HEX_MOVE_DOWN;
-                    break;
-                case HEX_MOVE_LEFT_UP:
-                    currentHexMove = HEX_MOVE_NONE;
-                    break;
-                case HEX_MOVE_UP:
-                    currentHexMove = HEX_MOVE_RIGHT_UP;
-                    break;
-                case HEX_MOVE_RIGHT_UP:
-                    break;
-            }
+                    case HEX_MOVE_NONE:
+                        currentHexMove = HEX_MOVE_RIGHT_DOWN;
+                        break;
+                    case HEX_MOVE_DOWN:
+                        currentHexMove = HEX_MOVE_RIGHT_DOWN;
+                        break;
+                    case HEX_MOVE_LEFT_DOWN:
+                        currentHexMove = HEX_MOVE_DOWN;
+                        break;
+                    case HEX_MOVE_LEFT_UP:
+                        currentHexMove = HEX_MOVE_NONE;
+                        break;
+                    case HEX_MOVE_UP:
+                        currentHexMove = HEX_MOVE_RIGHT_UP;
+                        break;
+                    case HEX_MOVE_RIGHT_UP:
+                        break;
+                }
                 break;
 
             case HEX_MOVE_DOWN:
                 switch (currentHexMove) {
-                case HEX_MOVE_NONE:
-                    currentHexMove = HEX_MOVE_DOWN;
-                    break;
-                case HEX_MOVE_UP:
-                    currentHexMove = HEX_MOVE_NONE;
-                    break;
-                case HEX_MOVE_RIGHT_UP:
-                    break;
-                case HEX_MOVE_RIGHT_DOWN:
-                    break;
-                case HEX_MOVE_DOWN:
-                    break;
-                case HEX_MOVE_LEFT_DOWN:
-                    break;
-                case HEX_MOVE_LEFT_UP:
-                    break;
-            }
+                    case HEX_MOVE_NONE:
+                        currentHexMove = HEX_MOVE_DOWN;
+                        break;
+                    case HEX_MOVE_UP:
+                        currentHexMove = HEX_MOVE_NONE;
+                        break;
+                    case HEX_MOVE_RIGHT_UP:
+                        break;
+                    case HEX_MOVE_RIGHT_DOWN:
+                        break;
+                    case HEX_MOVE_DOWN:
+                        break;
+                    case HEX_MOVE_LEFT_DOWN:
+                        break;
+                    case HEX_MOVE_LEFT_UP:
+                        break;
+                }
                 break;
 
             case HEX_MOVE_LEFT_DOWN:
                 switch (currentHexMove) {
-                case HEX_MOVE_NONE:
-                    currentHexMove = HEX_MOVE_LEFT_DOWN;
-                    break;
-                case HEX_MOVE_UP:
-                    currentHexMove = HEX_MOVE_LEFT_UP;
-                    break;
-                case HEX_MOVE_RIGHT_UP:
-                    currentHexMove = HEX_MOVE_NONE;
-                    break;
-                case HEX_MOVE_RIGHT_DOWN:
-                    currentHexMove = HEX_MOVE_DOWN;
-                    break;
-                case HEX_MOVE_DOWN:
-                    currentHexMove = HEX_MOVE_LEFT_DOWN;
-                    break;
-                case HEX_MOVE_LEFT_DOWN:
-                    break;
-                case HEX_MOVE_LEFT_UP:
-                    break;
-            }
+                    case HEX_MOVE_NONE:
+                        currentHexMove = HEX_MOVE_LEFT_DOWN;
+                        break;
+                    case HEX_MOVE_UP:
+                        currentHexMove = HEX_MOVE_LEFT_UP;
+                        break;
+                    case HEX_MOVE_RIGHT_UP:
+                        currentHexMove = HEX_MOVE_NONE;
+                        break;
+                    case HEX_MOVE_RIGHT_DOWN:
+                        currentHexMove = HEX_MOVE_DOWN;
+                        break;
+                    case HEX_MOVE_DOWN:
+                        currentHexMove = HEX_MOVE_LEFT_DOWN;
+                        break;
+                    case HEX_MOVE_LEFT_DOWN:
+                        break;
+                    case HEX_MOVE_LEFT_UP:
+                        break;
+                }
                 break;
 
             case HEX_MOVE_LEFT_UP:
                 switch (currentHexMove) {
-                case HEX_MOVE_NONE:
-                    currentHexMove = HEX_MOVE_LEFT_UP;
-                    break;
-                case HEX_MOVE_UP:
-                    currentHexMove = HEX_MOVE_LEFT_UP;
-                    break;
-                case HEX_MOVE_RIGHT_UP:
-                    currentHexMove = HEX_MOVE_UP;
-                    break;
-                case HEX_MOVE_RIGHT_DOWN:
-                    currentHexMove = HEX_MOVE_NONE;
-                    break;
-                case HEX_MOVE_DOWN:
-                    currentHexMove = HEX_MOVE_LEFT_DOWN;
-                    break;
-                case HEX_MOVE_LEFT_DOWN:
-                    currentHexMove = HEX_MOVE_LEFT_UP;
-                    break;
-                case HEX_MOVE_LEFT_UP:
-                    break;
-            }
+                    case HEX_MOVE_NONE:
+                        currentHexMove = HEX_MOVE_LEFT_UP;
+                        break;
+                    case HEX_MOVE_UP:
+                        currentHexMove = HEX_MOVE_LEFT_UP;
+                        break;
+                    case HEX_MOVE_RIGHT_UP:
+                        currentHexMove = HEX_MOVE_UP;
+                        break;
+                    case HEX_MOVE_RIGHT_DOWN:
+                        currentHexMove = HEX_MOVE_NONE;
+                        break;
+                    case HEX_MOVE_DOWN:
+                        currentHexMove = HEX_MOVE_LEFT_DOWN;
+                        break;
+                    case HEX_MOVE_LEFT_DOWN:
+                        currentHexMove = HEX_MOVE_LEFT_UP;
+                        break;
+                    case HEX_MOVE_LEFT_UP:
+                        break;
+                }
                 break;
 
             default:
@@ -319,14 +319,14 @@ public class DefenderCharacter implements GraphicsObject, Updatable {
                 break;
             case HEX_MOVE_RIGHT_UP:
                 if (hexX % 2 == 0) {
-                hexY++;
-            }
+                    hexY++;
+                }
                 hexX++;
                 break;
             case HEX_MOVE_RIGHT_DOWN:
                 if (hexX % 2 != 0) {
-                hexY--;
-            }
+                    hexY--;
+                }
                 hexX++;
                 break;
             case HEX_MOVE_DOWN:
@@ -334,14 +334,14 @@ public class DefenderCharacter implements GraphicsObject, Updatable {
                 break;
             case HEX_MOVE_LEFT_DOWN:
                 if (hexX % 2 != 0) {
-                hexY--;
-            }
+                    hexY--;
+                }
                 hexX--;
                 break;
             case HEX_MOVE_LEFT_UP:
                 if (hexX % 2 == 0) {
-                hexY++;
-            }
+                    hexY++;
+                }
                 hexX--;
                 break;
             default:
