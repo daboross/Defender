@@ -1,5 +1,2 @@
-nbproject/private
-build
-dist
-*.class
-*.jar
+target
+dependency-reduced-pom.xml
